@@ -1,5 +1,6 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
+import { check } from "@tauri-apps/plugin-updater";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 
@@ -7,9 +8,21 @@ function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
 
+  const [buttonText, setButtonText] = useState("updateのチェックを行います");
+
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
     setGreetMsg(await invoke("greet", { name }));
+  }
+
+  const handleClick = async () => {
+    const update = await check();
+
+    if (update) {
+      setButtonText("trueです！");
+    } else {
+      setButtonText("falseです！")
+    }
   }
 
   return (
@@ -44,6 +57,7 @@ function App() {
         <button type="submit">Greet</button>
       </form>
       <p>{greetMsg}</p>
+      <button onClick={handleClick}>{buttonText}</button>
     </main>
   );
 }

@@ -18,10 +18,13 @@ function App() {
   const handleClick = async () => {
     const update = await check();
 
+    console.log(update);
+
+    setButtonText("ボタンがクリックされました！");
     if (update) {
       setButtonText("trueです！");
     } else {
-      setButtonText("falseです！")
+      setButtonText("falseです！");
     }
   }
 
